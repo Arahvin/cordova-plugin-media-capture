@@ -60,6 +60,7 @@ import android.provider.MediaStore;
 
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import javafx.scene.Camera;
 import javafx.scene.paint.Color;
 
 public class Capture extends CordovaPlugin {
@@ -307,22 +308,23 @@ public class Capture extends CordovaPlugin {
             // Create a FrameLayout to contain the camera preview and overlay text
             FrameLayout layout = new FrameLayout(cordova.getActivity());
 
+            // Create a SurfaceView for the camera preview
+            SurfaceView surfaceView = new SurfaceView(cordova.getActivity());
+            Camera camera = Camera.open(); // Open the camera
+
+            // Add the camera preview view to the layout
+            layout.addView(surfaceView, new FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
+
             // Create a TextView to display the overlay text
             TextView overlayText = new TextView(cordova.getActivity());
             overlayText.setText("Your Overlay Text Here");
-            overlayText.setTextColor(Color.rgb(0,0,0));  // Set text color
-            overlayText.setTextSize(24);           // Set text size
+            overlayText.setTextColor(Color.rgb(0,0,0)); // Set text color
+            overlayText.setTextSize(24); // Set text size
 
             // Add the overlay text view to the layout
             layout.addView(overlayText, new FrameLayout.LayoutParams(
                 FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT));
-
-            // Create the camera preview (VideoCapturePreview)
-            VideoCapturePreview videoView = new VideoCapturePreview(cordova.getActivity());
-
-            // Add the camera preview view to the layout
-            layout.addView(videoView, new FrameLayout.LayoutParams(
-                FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
 
             // Set the content view to the layout
             cordova.getActivity().setContentView(layout);
