@@ -306,29 +306,35 @@ public class Capture extends CordovaPlugin {
         if(cameraPermissionInManifest && !PermissionHelper.hasPermission(this, Manifest.permission.CAMERA)) {
             PermissionHelper.requestPermission(this, req.requestCode, Manifest.permission.CAMERA);
         } else {
-            // Create a FrameLayout to contain the camera preview and overlay text
-            FrameLayout layout = new FrameLayout(cordova.getActivity());
+            // Assuming this code is executed from a non-UI thread
+            cordova.getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    // Create a FrameLayout to contain the camera preview and overlay text
+                    FrameLayout layout = new FrameLayout(cordova.getActivity());
 
-            // Create a SurfaceView for the camera preview
-            SurfaceView surfaceView = new SurfaceView(cordova.getActivity());
-            Camera camera = Camera.open(); // Open the camera
+                    // Create a SurfaceView for the camera preview
+                    SurfaceView surfaceView = new SurfaceView(cordova.getActivity());
+                    Camera camera = Camera.open(); // Open the camera
 
-            // Add the camera preview view to the layout
-            layout.addView(surfaceView, new FrameLayout.LayoutParams(
-                FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
+                    // Add the camera preview view to the layout
+                    layout.addView(surfaceView, new FrameLayout.LayoutParams(
+                        FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
 
-            // Create a TextView to display the overlay text
-            TextView overlayText = new TextView(cordova.getActivity());
-            overlayText.setText("Your Overlay Text Here");
-            overlayText.setTextColor(0); // Set text color
-            overlayText.setTextSize(24); // Set text size
+                    // Create a TextView to display the overlay text
+                    TextView overlayText = new TextView(cordova.getActivity());
+                    overlayText.setText("Your Overlay Text Here");
+                    overlayText.setTextColor(0); // Set text color
+                    overlayText.setTextSize(24); // Set text size
 
-            // Add the overlay text view to the layout
-            layout.addView(overlayText, new FrameLayout.LayoutParams(
-                FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT));
+                    // Add the overlay text view to the layout
+                    layout.addView(overlayText, new FrameLayout.LayoutParams(
+                        FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT));
 
-            // Set the content view to the layout
-            cordova.getActivity().setContentView(layout);
+                    // Set the content view to the layout
+                    cordova.getActivity().setContentView(layout);
+                }
+            });
 
             Intent intent = new Intent(android.provider.MediaStore.ACTION_VIDEO_CAPTURE);
 
