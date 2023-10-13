@@ -310,7 +310,7 @@ public class Capture extends CordovaPlugin {
             // Create a TextView to display the overlay text
             TextView overlayText = new TextView(cordova.getActivity());
             overlayText.setText("Your Overlay Text Here");
-            overlayText.setTextColor(Color.WHITE);  // Set text color
+            overlayText.setTextColor(Color.rgb(0,0,0));  // Set text color
             overlayText.setTextSize(24);           // Set text size
 
             // Add the overlay text view to the layout
