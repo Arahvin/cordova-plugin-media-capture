@@ -58,6 +58,8 @@ import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 
+import android.view.SurfaceView;
+import android.hardware.Camera;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import javafx.scene.Camera;
